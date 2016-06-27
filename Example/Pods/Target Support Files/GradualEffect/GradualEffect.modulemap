@@ -1,0 +1,6 @@
+framework module GradualEffect {
+  umbrella header "GradualEffect-umbrella.h"
+
+  export *
+  module * { export * }
+}

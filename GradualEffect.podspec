@@ -9,28 +9,23 @@
 Pod::Spec.new do |s|
   s.name             = 'GradualEffect'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of GradualEffect.'
+  s.summary          = 'Gradually blur the background as the user scrolles. Blazing fast.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
+# Gradually blur the background as the user scrolles. It's blazing fast and it uses the GPU instead of the CPU.
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Gradually blur the background as the user scrolles. It's blazing fast and it uses the GPU instead of the CPU.
                        DESC
 
-  s.homepage         = 'https://github.com/<GITHUB_USERNAME>/GradualEffect'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.homepage         = 'https://github.com/darianjug/GradualEffect'
+                                                s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Darian Jug' => 'darian.jug@me.com' }
-  s.source           = { :git => 'https://github.com/<GITHUB_USERNAME>/GradualEffect.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.source           = { :git => 'https://github.com/darianjug/GradualEffect.git', :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/Darian_Jug'
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'GradualEffect/Classes/**/*'
+  s.source_files = 'GradualEffect/Classes/**/*.swift'
   
   # s.resource_bundles = {
   #   'GradualEffect' => ['GradualEffect/Assets/*.png']
@@ -38,5 +33,5 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'GPUImage', '~> 0.1.7'
 end

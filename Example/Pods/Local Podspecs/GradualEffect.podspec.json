@@ -1,0 +1,27 @@
+{
+  "name": "GradualEffect",
+  "version": "0.1.0",
+  "summary": "A short description of GradualEffect.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/GradualEffect",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Darian Jug": "darian.jug@me.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/GradualEffect.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "GradualEffect/Classes/**/*.swift",
+  "dependencies": {
+    "GPUImage": [
+      "~> 0.1.7"
+    ]
+  }
+}

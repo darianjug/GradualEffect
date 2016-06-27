@@ -1,9 +1,10 @@
 # GradualEffect
 
-[![CI Status](http://img.shields.io/travis/Darian Jug/GradualEffect.svg?style=flat)](https://travis-ci.org/Darian Jug/GradualEffect)
 [![Version](https://img.shields.io/cocoapods/v/GradualEffect.svg?style=flat)](http://cocoapods.org/pods/GradualEffect)
 [![License](https://img.shields.io/cocoapods/l/GradualEffect.svg?style=flat)](http://cocoapods.org/pods/GradualEffect)
 [![Platform](https://img.shields.io/cocoapods/p/GradualEffect.svg?style=flat)](http://cocoapods.org/pods/GradualEffect)
+
+Gradually blur the background as the user scrolles. Blazing fast.
 
 ## Example
 
