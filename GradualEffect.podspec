@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'GradualEffect'
-  s.version          = '0.1.0'
+  s.version          = '0.1'
   s.summary          = 'Gradually blur the background as the user scrolles. Blazing fast.'
 
 # Gradually blur the background as the user scrolles. It's blazing fast and it uses the GPU instead of the CPU.
