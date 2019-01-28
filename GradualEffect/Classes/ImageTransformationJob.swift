@@ -22,13 +22,13 @@ public class ImageTransformationJob {
     let completionBlock: CompletionBlock?
     
     /// Current operation of this job execution, it's created when the job is added.
-    var operation: NSOperation?
+    var operation: Operation?
     
     /// Time interval when this job was started.
-    var startedOn: NSTimeInterval?
+    var startedOn: TimeInterval?
     
     /// Time interval when this job was completed.
-    var finishedOn: NSTimeInterval?
+    var finishedOn: TimeInterval?
     
     init(identifier: String, originalImage: UIImage, transformer: ImageTransformer, completionBlock: CompletionBlock? = nil) {
         self.identifier         = identifier

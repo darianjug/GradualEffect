@@ -17,5 +17,5 @@ public protocol ImageTransformer {
             - originalImage: Image that needs to be transformed.
             - completionBlock: Block that is going to be called with the transfomed image when the transformation is completed.
     */
-    func transform(originalImage: UIImage, completionBlock: CompletionBlock)
+    func transform(originalImage: UIImage, completionBlock: @escaping CompletionBlock)
 }

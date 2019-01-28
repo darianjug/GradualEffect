@@ -14,7 +14,7 @@ public class BlurringScrollView: UIScrollView, UIScrollViewDelegate {
     override public var contentOffset: CGPoint {
         didSet {
             if imageView != nil {
-                setBackgroundBlurForContentOffset(contentOffset)
+                setBackgroundBlurForContentOffset(contentOffset: contentOffset)
             }
         }
     }
@@ -23,7 +23,7 @@ public class BlurringScrollView: UIScrollView, UIScrollViewDelegate {
         super.init(frame: frame)
         
         imageView = BlurredImageView(frame: bounds)
-        imageView?.backgroundColor = UIColor.redColor()
+        imageView?.backgroundColor = UIColor.red
         addSubview(imageView!)
     }
     
@@ -31,7 +31,7 @@ public class BlurringScrollView: UIScrollView, UIScrollViewDelegate {
         super.init(coder: aDecoder)
         
         imageView = BlurredImageView()
-        imageView?.backgroundColor = UIColor.redColor()
+        imageView?.backgroundColor = UIColor.red
         addSubview(imageView!)
     }
     
@@ -42,7 +42,7 @@ public class BlurringScrollView: UIScrollView, UIScrollViewDelegate {
     }
     
     func setBackgroundBlurForCurrentContentOffset() {
-        setBackgroundBlurForContentOffset(contentOffset)
+        setBackgroundBlurForContentOffset(contentOffset: contentOffset)
     }
 
     func setBackgroundBlurForContentOffset(contentOffset: CGPoint) {

@@ -14,7 +14,7 @@ public class BlurredImageView: UIView {
     public var image: UIImage? {
         didSet {
             if image != nil {
-                processImage(image!)
+                processImage(image: image!)
             }
         }
     }
@@ -22,7 +22,7 @@ public class BlurredImageView: UIView {
     /// A number from 0.0 to 1.0. Where 1.0 is where filter is at it's maximum, and 0.0 where the filter is a minimum value.
     public var effectStrength: CGFloat = 0.0 {
         didSet {
-            setUpImagesForCurrentFilterStrength(effectStrength)
+            setUpImagesForCurrentFilterStrength(strenght: effectStrength)
         }
     }
     
@@ -36,7 +36,7 @@ public class BlurredImageView: UIView {
     public var numberOfStages             : Int       = 5
     
     /// Idenfitifer is randomly created upon creation of BlurredImageView, and is used for worker job queue names.
-    public var identifier                   = NSUUID().UUIDString
+    public var identifier                   = NSUUID().uuidString
     
     /// First image view. To give the user illusion of blazing fast progressive blurring two image views are used, using opacity and multiple images generated in stages/phases a smooth experience is given. Unfortunately it's static.
     private var firstImageView: UIImageView?
@@ -56,14 +56,14 @@ public class BlurredImageView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        processedImages = [UIImage?] (count: numberOfStages + 2, repeatedValue: nil)
+        processedImages = [UIImage?] (repeating: nil, count: numberOfStages + 2)
         
         // Initalize image views.
         self.firstImageView     = UIImageView(frame: bounds)
         self.secondImageView    = UIImageView(frame: bounds)
         
-        self.firstImageView!.contentMode     = .ScaleAspectFill
-        self.secondImageView!.contentMode    = .ScaleAspectFill
+        self.firstImageView!.contentMode     = .scaleAspectFill
+        self.secondImageView!.contentMode    = .scaleAspectFill
         
         self.addSubview(firstImageView!)
         self.addSubview(secondImageView!)
@@ -72,14 +72,14 @@ public class BlurredImageView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        processedImages = [UIImage?] (count: numberOfStages + 2, repeatedValue: nil)
+        processedImages = [UIImage?] (repeating: nil, count: numberOfStages + 2)
         
         // Initalize image views.
         self.firstImageView     = UIImageView(frame: bounds)
         self.secondImageView    = UIImageView(frame: bounds)
         
-        self.firstImageView!.contentMode     = .ScaleAspectFill
-        self.secondImageView!.contentMode    = .ScaleAspectFill
+        self.firstImageView!.contentMode     = .scaleAspectFill
+        self.secondImageView!.contentMode    = .scaleAspectFill
         
         self.addSubview(firstImageView!)
         self.addSubview(secondImageView!)
@@ -96,7 +96,7 @@ public class BlurredImageView: UIView {
     
     public func processImage(image: UIImage, onImageProcessingComplete: ImageProcessingCompleteBlock? = nil) {
         // Initalize the array for processed images.
-        processedImages = [UIImage?] (count: numberOfStages + 2, repeatedValue: nil)
+        processedImages = [UIImage?] (repeating: nil, count: numberOfStages + 2)
         
         // If the strenght is 0, set the given original image, since the first stage is always the original image.
         if effectStrength == 0 {
@@ -104,7 +104,7 @@ public class BlurredImageView: UIView {
         }
         
         // Cancel all jobs in the shared worker for this image view.
-        Worker.sharedInstance.cancelQueueJobs(identifier)
+        Worker.sharedInstance.cancelQueueJobs(queueKey: identifier)
         
         self.imagesProcessed    = 0
         self.originalImage      = image
@@ -117,7 +117,7 @@ public class BlurredImageView: UIView {
             let percentageOfStage = CGFloat(i) / CGFloat(self.numberOfStages)
             
             // Formula for calculating blur radius is, where a is percentage of stage number/number of stages (I/Imax): easingFunction(a) * (max - min) + min
-            let blurRadius: CGFloat = self.blurEasingFunction(percentageOfStage) * (self.maximumBlurRadius - self.minimumBlurRadius) + self.minimumBlurRadius
+            let blurRadius: CGFloat = self.blurEasingFunction(x: percentageOfStage) * (self.maximumBlurRadius - self.minimumBlurRadius) + self.minimumBlurRadius
             
             let transformer = iOSBlurImageTransformer(blurRadiusInPixels: blurRadius)
             
@@ -141,11 +141,11 @@ public class BlurredImageView: UIView {
             
             return job
         })
-        
-        Worker.sharedInstance.addJobs(identifier, jobs: jobs, completionBlock: { (image) in
+
+        Worker.sharedInstance.addJobs(key: identifier, jobs: jobs) {
             // Call the ImageProcessingCompleteBlock.
             onImageProcessingComplete?()
-        })
+        }
     }
     
     // Inputs X [0, 1] => [0, 1] for easing blurring.
@@ -156,11 +156,11 @@ public class BlurredImageView: UIView {
     
     // We're using quad easing function.
     func blurEasingFunction(x: CGFloat) -> CGFloat {
-        return easeInOutQuadEasingFunction(x)
+        return easeInOutQuadEasingFunction(x: x)
     }
     
     func setUpImagesForCurrentFilterStrength() {
-        setUpImagesForCurrentFilterStrength(effectStrength)
+        setUpImagesForCurrentFilterStrength(strenght: effectStrength)
     }
     
     func setUpImagesForCurrentFilterStrength(strenght: CGFloat) {
