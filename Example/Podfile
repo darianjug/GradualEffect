@@ -2,8 +2,4 @@ use_frameworks!
 
 target 'GradualEffect_Example' do
   pod 'GradualEffect', :path => '../'
-
-  target 'GradualEffect_Tests' do
-    inherit! :search_paths
-  end
 end
