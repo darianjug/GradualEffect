@@ -17,7 +17,7 @@ public class Worker: NSObject {
     var jobQueues: JobQueues = [:]
     
     /// Operation queue is used to process image transformation operations.
-    private var operationQueue: NSOperationQueue = NSOperationQueue()
+    private var operationQueue: OperationQueue = OperationQueue()
     
     override init() {
         operationQueue.maxConcurrentOperationCount = 1
@@ -32,12 +32,12 @@ public class Worker: NSObject {
                 job             : ImageTransformationJob,
                 completionBlock : CompletionBlock?          = nil) {
         // Get all jobs running for that key as an array.
-        var jobsForKey = getOrCreateJobQueueForKey(queueKey)
+        var jobsForKey = getOrCreateJobQueueForKey(queueKey: queueKey)
         
         // Create an NSOperation and assign it to the job.
         let operation = ImageTransformationOperation(job: job, imageFinishedProcessing: { (resultImage) in
             completionBlock?(resultImage)
-            self.jobFinishedWithImage(queueKey, job: job, resultImage: resultImage)
+            self.jobFinishedWithImage(queueKey: queueKey, job: job, resultImage: resultImage)
         })
         
         // Assign the exsisting operation to the job.
@@ -50,7 +50,7 @@ public class Worker: NSObject {
         print("Job '\(job.identifier)' added to queue '\(queueKey)'")
         
         // Add job to list of jobs with that key.
-        addJobToJobQueue(queueKey, job: job)
+        addJobToJobQueue(queueKey: queueKey, job: job)
     }
     
     public func addJobs(key             : String,
@@ -58,9 +58,9 @@ public class Worker: NSObject {
                         completionBlock : QueueCompletionBlock?        = nil) {
         // Add each job.
         jobs.forEach { (job) in
-            addJob(key, job: job, completionBlock: { image in
+            addJob(queueKey: key, job: job, completionBlock: { image in
                 // If all jobs are finished call.
-                if self.isJobQueueEmpty(key) {
+                if self.isJobQueueEmpty(queueKey: key) {
                     // All jobs in a queue are finished.
                     completionBlock?()
                 }
@@ -80,7 +80,7 @@ public class Worker: NSObject {
                 job.operation?.cancel()
                 
                 // Remove it from the queue.
-                removeJobFromQueue(queueKey, job: job)
+                removeJobFromQueue(queueKey: queueKey, job: job)
             })
         }
     }
@@ -92,11 +92,11 @@ public class Worker: NSObject {
     /// Method called upon job completion. The job is here removed from the queue.
     private func jobFinishedWithImage(queueKey: String, job: ImageTransformationJob, resultImage: UIImage?) {
         // Time it took to complete the job.
-        let operationDuration: NSTimeInterval = job.finishedOn! - job.startedOn!
+        let operationDuration: TimeInterval = job.finishedOn! - job.startedOn!
         
         print("Job '\(job.identifier)' finished in \(operationDuration)ms")
         
-        removeJobFromQueue(queueKey, job: job)
+        removeJobFromQueue(queueKey: queueKey, job: job)
     }
     
     /**
@@ -110,7 +110,7 @@ public class Worker: NSObject {
     */
     private func removeJobFromQueue(queueKey: String, job: ImageTransformationJob) -> Bool {
         if var jobQueue = jobQueues[queueKey] {
-            let didRemove = jobQueue.removeValueForKey(job.identifier) != nil
+            let didRemove = jobQueue.removeValue(forKey: job.identifier) != nil
             
             // Swift returns struct values in functions instead of references, and Swift dictionary and arrays are based on structs. So, we need to set the value again.
             jobQueues[queueKey] = jobQueue
@@ -133,7 +133,7 @@ public class Worker: NSObject {
     
     /// Adds the job to job queue.
     private func addJobToJobQueue(queueKey: String, job: ImageTransformationJob) {
-        var queue = getOrCreateJobQueueForKey(queueKey)
+        var queue = getOrCreateJobQueueForKey(queueKey: queueKey)
         
         queue[job.identifier] = job
         
@@ -147,7 +147,7 @@ public class Worker: NSObject {
     }
     
     /// Returns the current time, this is used to calculate the duration of each job upon completion.
-    private func getCurrentTime() -> NSTimeInterval {
+    private func getCurrentTime() -> TimeInterval {
         // NSDate related methods for getting time are slow, so CoreAnimation ones are prefered.
         return CACurrentMediaTime()
     }

@@ -7,7 +7,7 @@
 //
 
 /// Completion block returns the transformed image.
-public typealias CompletionBlock = UIImage -> ()
+public typealias CompletionBlock = (UIImage) -> ()
 
 /// Block that is called on queue completion.
 public typealias QueueCompletionBlock = () -> ()

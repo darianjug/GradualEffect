@@ -1,9 +1,10 @@
 {
   "name": "GradualEffect",
-  "version": "0.1.0",
-  "summary": "A short description of GradualEffect.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/GradualEffect",
+  "version": "0.1",
+  "summary": "Gradually blur the background as the user scrolles. Blazing fast.",
+  "swift_version": "4.0",
+  "description": "Gradually blur the background as the user scrolles. It's blazing fast and it uses the GPU instead of the CPU.",
+  "homepage": "https://github.com/darianjug/GradualEffect",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,9 +13,10 @@
     "Darian Jug": "darian.jug@me.com"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/GradualEffect.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/darianjug/GradualEffect.git",
+    "tag": "0.1"
   },
+  "social_media_url": "https://twitter.com/Darian_Jug",
   "platforms": {
     "ios": "8.0"
   },

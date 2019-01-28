@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ImageTransformationOperation: NSOperation {
+class ImageTransformationOperation: Operation {
     let job: ImageTransformationJob
     let imageFinishedProcessing: CompletionBlock?
     
@@ -18,7 +18,7 @@ class ImageTransformationOperation: NSOperation {
     }
     
     override func main () {
-        if self.cancelled {
+        if self.isCancelled {
             return
         }
         
@@ -26,26 +26,26 @@ class ImageTransformationOperation: NSOperation {
         
         job.startedOn = self.getCurrentTime()
         
-        job.transformer.transform(job.originalImage, completionBlock: { (resultImage) in
+        job.transformer.transform(originalImage: job.originalImage, completionBlock: { (resultImage) in
             // Note the finish time, so we can calculate the duration of the operation.
             self.job.finishedOn = self.getCurrentTime()
             
-            if self.cancelled {
+            if self.isCancelled {
                 return
             }
             
             print("Job '\(self.job.identifier)' operation finished")
-            
+
             // Handle all completions on the main queue.
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async {
                 self.imageFinishedProcessing?(resultImage)
                 self.job.completionBlock?(resultImage)
-            })
+            }
         })
     }
     
     /// Returns the current time, this is used to calculate the duration of each job upon completion.
-    private func getCurrentTime() -> NSTimeInterval {
+    private func getCurrentTime() -> TimeInterval {
         // NSDate related methods for getting time are slow, so CoreAnimation ones are prefered.
         return CACurrentMediaTime()
     }

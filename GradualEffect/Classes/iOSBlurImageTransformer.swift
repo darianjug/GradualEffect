@@ -27,25 +27,25 @@ public class iOSBlurImageTransformer: ImageTransformer {
     init(blurRadiusInPixels: CGFloat) {
         self.blurRadiusInPixels = blurRadiusInPixels
     }
-    
-    public func transform(originalImage: UIImage, completionBlock: CompletionBlock) {
+
+    public func transform(originalImage: UIImage, completionBlock: @escaping (UIImage) -> ()) {
         let stillImageSource: GPUImagePicture = GPUImagePicture(image: originalImage)
-    
+
         let stillImageFilter = GPUImageiOSBlurFilter()
-        
+
         // GPUImageFilter parameters.
         stillImageFilter.blurRadiusInPixels     = blurRadiusInPixels
         stillImageFilter.saturation             = saturation
         stillImageFilter.downsampling           = downsampling
         stillImageFilter.rangeReductionFactor   = rangeReductionFactor
-        
+
         stillImageSource.addTarget(stillImageFilter)
         stillImageFilter.useNextFrameForImageCapture()
         stillImageSource.processImage()
-        
+
         stillImageFilter.frameProcessingCompletionBlock = { (imageOutput, coreMediaTime) in
-            let currentFilteredVideoFrame: UIImage = imageOutput.imageFromCurrentFramebuffer()
-            
+            let currentFilteredVideoFrame: UIImage = (imageOutput?.imageFromCurrentFramebuffer())!
+
             // Call the completion block with the transformed image.
             completionBlock(currentFilteredVideoFrame)
         }
